@@ -1,0 +1,76 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{% block contenido_que_cambia %}
+<section class="page-section" id="contact">
+    <div class="container">
+        <!-- Contact Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Registrarme</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>   
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+                <form action="{% url 'registro' %}" method="POST">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <!-- Usuario input-->
+                    <div class="form-floating mb-3">
+                        {{ form.username }}
+                        <label for="username">Usuario</label>
+                        {% if form.username.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.username.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <!-- Email address input-->
+                    <div class="form-floating mb-3">
+                        {{ form.email }}
+                        <label for="email">Email</label>
+                        {% if form.email.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.email.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <!-- Password1-->
+                    <div class="form-floating mb-3">
+                        {{ form.password1 }}
+                        <label for="password1">Contraseña</label>
+                        {% if form.password1.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.password1.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <!-- Password2-->
+                    <div class="form-floating mb-3">
+                        {{ form.password2 }}
+                        <label for="password2">Confirme contraseña</label>
+                        {% if form.password2.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.password2.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <!-- Submit Button-->
+                    <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Registrarme</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
