@@ -34,37 +34,36 @@ def reservar_turno(request):
 
 def reservar_turno(request):
     if request.method == "POST":
-        medico_id = request.POST['medico']
-        turno_id = request.POST['turno']
-        medico = Medico.objects.get(id=medico_id)
-        cliente = request.user
+        medico_id = request.POST.get('medico')
+        turno_id = request.POST.get('turno')
         
-        turno = Turno.objects.get(id=turno_id)
-        
-        if turno.estado == 'D':
-            turno.cliente = cliente
-            turno.estado = 'R'
-            turno.save()
-            return redirect('turno_reservado')
+        if medico_id and turno_id:
+            medico = Medico.objects.get(id=medico_id)
+            cliente = request.user
+            
+            turno = Turno.objects.get(id=turno_id)
+            
+            if turno.estado == 'D':
+                turno.cliente = cliente
+                turno.estado = 'R'
+                turno.save()
+                return redirect('turno_reservado')
+            else:
+                return redirect('reservar_turno')
         else:
-            return redirect('turno_no_disponible')
+            return redirect('reservar_turno')
     
     medicos = Medico.objects.all()
-    #turnos_disponibles = Turno.objects.filter(estado='D', fecha__gte=timezone.now().date())
     turnos_disponibles = {}
     for medico in medicos:
-        turnos_disponibles[medico] = Turno.objects.filter(estado='D', fecha__gte=timezone.now().date(), medico=medico)
+        turnos = Turno.objects.filter(estado='D', fecha__gte=timezone.now().date(), medico=medico)
+        if turnos.exists():
+            turnos_disponibles[medico.id] = list(turnos.values('id', 'fecha', 'hora_inicio'))
 
-    #return render(request, 'reservar_turno.html', {'medicos': medicos, 'turnos_disponibles': turnos_disponibles})
-    return render(request, 'reservar_turno.html', {'medicos': medicos, 'turnos_disponibles': turnos_disponibles})
-'''
-@login_required
-def reservar_turno(request, turno_id):
-    turno = get_object_or_404(Turno, id=turno_id, estado='D')
-    turno.estado = 'R'
-    turno.paciente = request.user
-    turno.save()
-    return redirect('lista_turnos')'''
+    return render(request, 'reservar_turno.html', {
+        'medicos': medicos,
+        'turnos_disponibles': turnos_disponibles
+    })
 
 def turno_reservado(request):
     return render(request, 'turno_reservado.html')
@@ -76,8 +75,7 @@ def turno_no_disponible(request):
 @login_required
 def cancelar_turno(request, turno_id):
     turno = get_object_or_404(Turno, id=turno_id, estado='R', cliente=request.user)
-    turno.estado = 'D'
-    turno.cliente = None
+    turno.estado = 'C'
     turno.especialidad = None
     turno.save()
     return redirect('mis_turnos')
@@ -88,9 +86,14 @@ def mis_turnos(request):
     return render(request, 'mis_turnos.html', {'turnos': turnos})
 
 def generar_turnos(request):
-    fecha = datetime(2024, 6, 5).date()  # Puedes ajustar la fecha según necesites
-    crear_turnos(fecha)
-    return HttpResponse("Turnos creados con éxito para la fecha especificada.")
+    
+    if request.user.is_superuser:
+
+        fecha = datetime(2024, 6, 10).date()  # Ajustar la fecha
+        crear_turnos(fecha)
+        return HttpResponse("Turnos creados con éxito para la fecha especificada.")
+    else:
+        return redirect('login')
 
 def get_turnos_disponibles(request):
     medico_id = request.GET.get('medico_id')

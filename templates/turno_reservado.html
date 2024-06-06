@@ -4,13 +4,15 @@
 
 {% block contenido_que_cambia %}
 
-
-<h1>Tu turno ha sido reservado con éxito</h1>
-<a href="{% url 'index' %}">Volver al inicio</a>
-
-
-
-
-
+<div class="container mt-5 mb-5">
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">¡Turno reservado con éxito!</h4>
+        <p>Tu turno ha sido reservado con éxito.</p>
+        <hr>
+        <p class="mb-0">Si deseas realizar otra acción, puedes hacerlo desde el menú principal.</p>
+    </div>
+    <a href="{% url 'index' %}" class="btn btn-primary mt-3">Volver al inicio</a>
+    <a href="{% url 'mis_turnos' %}" class="btn btn-secondary mt-3">Ir a Mis Turnos</a>
+</div>
 
 {% endblock %}

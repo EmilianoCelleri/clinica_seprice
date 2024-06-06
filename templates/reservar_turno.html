@@ -3,43 +3,67 @@
 {% load static %}
 
 {% block contenido_que_cambia %}
-<h1>Reservar Turno</h1>
-<form method="post">
-    {% csrf_token %}
-    <label for="medico">Médico:</label>
-    <select id="medico" name="medico" required>
-        {% for medico in medicos %}
-            <option value="{{ medico.id }}">{{ medico.nombre }} - {{ medico.especialidad.especialidad }}</option>
-        {% endfor %}
-    </select><br>
-    
-    <label for="turno">Turnos Disponibles:</label>
-    <select id="turno" name="turno" required>
-        <!-- Aquí se cargarán los turnos disponibles para el médico seleccionado -->
-    </select><br>
-    
-    <button type="submit">Reservar Turno</button>
-</form>
+<div class="container mt-5">
+    <h1 class="mb-4">Reservar Turno</h1>
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="medico">Médico:</label>
+            <select id="medico" name="medico" class="form-control" required>
+                <option value="" disabled selected>Seleccione un médico</option>
+                {% for medico in medicos %}
+                    <option value="{{ medico.id }}">{{ medico.nombre }} - {{ medico.especialidad.especialidad }}</option>
+                {% endfor %}
+            </select>
+            <div class="invalid-feedback">
+                Por favor seleccione un médico.
+            </div>
+        </div>
 
+        <div class="form-group">
+            <label for="turno">Turnos Disponibles:</label>
+            <select id="turno" name="turno" class="form-control" required>
+                <!-- Aquí se cargarán los turnos disponibles para el médico seleccionado -->
+            </select>
+            <div class="invalid-feedback">
+                Por favor seleccione un turno.
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary my-3">Reservar Turno</button>
+    </form>
+</div>
 <script>
-    document.getElementById('medico').addEventListener('change', function() {
-        var medico_id = this.value;
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/get_turnos_disponibles/?medico_id=' + medico_id, true);
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                var turnos_disponibles = JSON.parse(xhr.responseText);
-                var turno_select = document.getElementById('turno');
-                turno_select.innerHTML = '';
-                for (var i = 0; i < turnos_disponibles.length; i++) {
-                    var option = document.createElement('option');
-                    option.value = turnos_disponibles[i].id;
-                    option.text = turnos_disponibles[i].fecha + ' ' + turnos_disponibles[i].hora_inicio;
-                    turno_select.appendChild(option);
+    document.addEventListener('DOMContentLoaded', function() {
+        function loadTurnos(medico_id) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/get_turnos_disponibles/?medico_id=' + medico_id, true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var turnos_disponibles = JSON.parse(xhr.responseText);
+                    var turno_select = document.getElementById('turno');
+                    turno_select.innerHTML = '';
+                    for (var i = 0; i < turnos_disponibles.length; i++) {
+                        var option = document.createElement('option');
+                        option.value = turnos_disponibles[i].id;
+                        option.text = turnos_disponibles[i].fecha + ' ' + turnos_disponibles[i].hora_inicio;
+                        turno_select.appendChild(option);
+                    }
                 }
-            }
-        };
-        xhr.send();
+            };
+            xhr.send();
+        }
+
+        var medicoSelect = document.getElementById('medico');
+        medicoSelect.addEventListener('change', function() {
+            var medico_id = this.value;
+            loadTurnos(medico_id);
+        });
+
+        // Cargar los turnos para el primer médico inicialmente
+        if (medicoSelect.options.length > 0) {
+            loadTurnos(medicoSelect.options[0].value);
+        }
     });
 </script>
 
