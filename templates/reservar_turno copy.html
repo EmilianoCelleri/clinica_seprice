@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{% block contenido_que_cambia %}
+<h1>Reservar Turno</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="medico">Médico:</label>
+    <select id="medico" name="medico" required>
+        {% for medico in medicos %}
+            <option value="{{ medico.id }}">{{ medico.nombre }} - {{ medico.especialidad.especialidad }}</option>
+        {% endfor %}
+    </select><br>
+    
+    <label for="turno">Turnos Disponibles:</label>
+    <select id="turno" name="turno" required>
+        {% for turno in turnos_disponibles %}
+            <option value="{{ turno.id }}">{{ turno.fecha }} - {{ turno.hora_inicio }}</option>
+        {% endfor %}
+    </select><br>
+    
+    <button type="submit">Reservar Turno</button>
+</form>
+
+{% endblock %}
+
+

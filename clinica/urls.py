@@ -21,4 +21,5 @@ urlpatterns = [
     path('', include('index.urls')),
     path('', include('registro.urls')),
     path('', include('login.urls')),
+    path('', include('turnera.urls')),
 ]

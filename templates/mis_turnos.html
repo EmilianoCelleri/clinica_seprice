@@ -1,0 +1,35 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{% block contenido_que_cambia %}
+    <h1>Mis Turnos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha y Hora</th>
+                <th>Medico</th>
+                <th>Especialidad</th>
+                <th>Estado</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for turno in turnos %}
+            <tr>
+                <td>{{ turno.fecha }}</td>
+                <td>{{ turno.medico.nombre }} {{ turno.medico.apellido }}</td>
+                <td>{{ turno.medico.especialidad.especialidad }}</td>
+                <td>{{ turno.get_estado_display }}</td>
+                <td>
+                    {% if turno.estado == 'R' %}
+                    <a href="{% url 'cancelar_turno' turno.id %}">Cancelar</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

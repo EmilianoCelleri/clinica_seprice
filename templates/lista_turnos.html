@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Turnos</title>
+</head>
+<body>
+    <h1>Turnos Disponibles</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha y Hora</th>
+                <th>Medico</th>
+                <th>Especialidad</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for turno in turnos %}
+            <tr>
+                <td>{{ turno.fecha_hora }}</td>
+                <td>{{ turno.medico.nombre }} {{ turno.medico.apellido }}</td>
+                <td>{{ turno.medico.especialidad.especialidad }}</td>
+                <td>
+                    <a href="{% url 'reservar_turno' turno.id %}">Reservar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'index',
     'registro',
     'login',
+    'turnera',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +74,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'clinica.wsgi.application'
 
-
+LOGIN_URL ='/login/'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 

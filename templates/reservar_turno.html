@@ -1,0 +1,46 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{% block contenido_que_cambia %}
+<h1>Reservar Turno</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="medico">Médico:</label>
+    <select id="medico" name="medico" required>
+        {% for medico in medicos %}
+            <option value="{{ medico.id }}">{{ medico.nombre }} - {{ medico.especialidad.especialidad }}</option>
+        {% endfor %}
+    </select><br>
+    
+    <label for="turno">Turnos Disponibles:</label>
+    <select id="turno" name="turno" required>
+        <!-- Aquí se cargarán los turnos disponibles para el médico seleccionado -->
+    </select><br>
+    
+    <button type="submit">Reservar Turno</button>
+</form>
+
+<script>
+    document.getElementById('medico').addEventListener('change', function() {
+        var medico_id = this.value;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/get_turnos_disponibles/?medico_id=' + medico_id, true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var turnos_disponibles = JSON.parse(xhr.responseText);
+                var turno_select = document.getElementById('turno');
+                turno_select.innerHTML = '';
+                for (var i = 0; i < turnos_disponibles.length; i++) {
+                    var option = document.createElement('option');
+                    option.value = turnos_disponibles[i].id;
+                    option.text = turnos_disponibles[i].fecha + ' ' + turnos_disponibles[i].hora_inicio;
+                    turno_select.appendChild(option);
+                }
+            }
+        };
+        xhr.send();
+    });
+</script>
+
+{% endblock %}
