@@ -1,0 +1,34 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{% block contenido_que_cambia %}
+<div class="container mt-5 mb-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h1 class="card-title">Detalle de Historia Clínica</h1>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>Paciente:</strong> {{ historia_clinica.paciente }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Fecha:</strong> {{ historia_clinica.fecha|date:"d/m/Y H:i" }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Diagnóstico:</h3>
+                    <div class="border p-3">
+                        {{ historia_clinica.diagnostico|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-right">
+            <a href="{% url 'lista_historias_clinicas' %}" class="btn btn-secondary">Volver a la lista</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

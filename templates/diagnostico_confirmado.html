@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block contenido_que_cambia %}
+<div class="container mt-5">
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Diagnóstico Confirmado</h4>
+        <p>El diagnóstico ha sido confirmado y registrado correctamente.</p>
+        <hr>
+        <p class="mb-0">Puedes ver los detalles del diagnóstico en el sistema.</p>
+    </div>
+    <a href="{% url 'index' %}" class="btn btn-primary mt-3">Volver al inicio</a>
+</div>
+{% endblock %}

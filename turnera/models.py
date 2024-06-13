@@ -20,7 +20,7 @@ class Turno(models.Model):
     estado = models.CharField(max_length=1, choices=ESTADO_CHOICES, default='D')
 
     def __str__(self):
-        return f"Turno con {self.medico} - {self.fecha} {self.hora_inicio}"
+        return f"Turno de {self.medico} con {self.cliente} El dia: {self.fecha} a las: {self.hora_inicio}"
 
     class Meta:
         unique_together = ('medico', 'fecha', 'hora_inicio')

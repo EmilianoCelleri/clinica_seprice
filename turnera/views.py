@@ -89,7 +89,7 @@ def generar_turnos(request):
     
     if request.user.is_superuser:
 
-        fecha = datetime(2024, 6, 10).date()  # Ajustar la fecha
+        fecha = datetime(2024, 6, 15).date()  # Ajustar la fecha
         crear_turnos(fecha)
         return HttpResponse("Turnos creados con éxito para la fecha especificada.")
     else:
