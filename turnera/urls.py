@@ -10,4 +10,5 @@ urlpatterns = [
     path('generar_turnos/', views.generar_turnos, name='generar_turnos'),
     path('turno_no_disponible/', views.turno_no_disponible, name='turno_no_disponible'),
     path('get_turnos_disponibles/', views.get_turnos_disponibles, name='get_turnos_disponibles'),
+    path('mis_turnos_medico/', views.mis_turnos_medico, name='mis_turnos_medico'),
 ]

@@ -11,26 +11,12 @@ from django.contrib.auth.decorators import login_required
 from turnera.forms import TurnoForm
 from django.urls import reverse
 from .models import Turno, Medico
+from historias_medicas.decorators import medico_required
 
 @login_required
 def lista_turnos(request):
     turnos = Turno.objects.filter(estado='D')
     return render(request, 'turnos/lista_turnos.html', {'turnos': turnos})
-
-'''@login_required
-def reservar_turno(request):
-    if request.method == "POST":
-        form = TurnoForm(request.POST)
-        if form.is_valid():
-            turno = form.save(commit=False)
-            turno.cliente = request.user
-            turno.estado = 'R'
-            turno.save()
-            return redirect(reverse('turno_reservado'))
-    else:
-        form = TurnoForm()
-
-    return render(request, 'reservar_turno.html', {'form': form})'''
 
 def reservar_turno(request):
     if request.method == "POST":
@@ -84,6 +70,13 @@ def cancelar_turno(request, turno_id):
 def mis_turnos(request):
     turnos = Turno.objects.filter(cliente=request.user)
     return render(request, 'mis_turnos.html', {'turnos': turnos})
+
+@login_required
+@medico_required
+def mis_turnos_medico(request):
+    medico = Medico.objects.get(user=request.user)
+    turnos = Turno.objects.filter(medico=medico, estado='R', fecha__gte=timezone.now())
+    return render(request, 'mis_turnos_medico.html', {'turnos': turnos})
 
 def generar_turnos(request):
     

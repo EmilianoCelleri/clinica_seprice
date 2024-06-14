@@ -3,8 +3,8 @@
 
 {% block contenido_que_cambia %}
 <div class="container mt-5 mb-5">
-    <div class="card">
-        <div class="card-header bg-primary text-white">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white text-center">
             <h1 class="card-title">Cargar Diagnóstico</h1>
         </div>
         <div class="card-body">
@@ -27,4 +27,12 @@
         </div>
     </div>
 </div>
+
+<!-- CKEditor script de inicialización -->
+<script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('id_diagnostico', {
+        // Configuraciones opcionales de CKEditor
+    });
+</script>
 {% endblock %}

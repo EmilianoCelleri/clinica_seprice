@@ -21,21 +21,30 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand" href="#page-top">Clinica SePrice</a>
+                <a class="navbar-brand" href="{% url 'index' %}">Clinica SePrice</a>
                 <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#portfolio">Turnos</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about">Quienes somos</a></li>
+                        {% if user.medico %}
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'lista_historias_clinicas' %}">Historias Clinicas</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'cargar_diagnostico' %}">Nuevo Diagnostico</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'mis_turnos_medico' %}">Turnos</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" style="color:lightseagreen">{{request.user.username}}</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" style="color:crimson" href="{% url 'logout' %}">Cerrar Sesion</a></li>
+                        {% else %} 
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'mis_turnos' %}">Turnos</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'reservar_turno' %}">Nuevo Turno</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'mi_historia_clinica' %}">Mi Historia</a></li>
                         {% if not request.user.is_authenticated %}
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'registro' %}">Registrarme</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'login' %}">Login</a></li>
                         {% else %}
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" style="color:lightseagreen">{{request.user.username}}</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" style="color:crimson" href="{% url 'logout' %}">Cerrar Sesion</a></li>
+                        {% endif %}
                         {% endif %}
                     </ul>
                 </div>
@@ -47,7 +56,11 @@
                 <!-- Masthead Avatar Image-->
                 <img class="masthead-avatar mb-5" src="{% static 'index/assets/img/avataaars.svg' %}" alt="..." />
                 <!-- Masthead Heading-->
-                <h1 class="masthead-heading text-uppercase mb-0">Turnera</h1>
+                {% if user.medico %}
+                <h1 class="masthead-heading text-uppercase mb-0">Portal de Medicos</h1>
+                {% else %}
+                <h1 class="masthead-heading text-uppercase mb-0">Portal de Pacientes</h1>
+                {% endif %}
                 <!-- Icon Divider-->
                 <div class="divider-custom divider-light">
                     <div class="divider-custom-line"></div>
@@ -55,7 +68,11 @@
                     <div class="divider-custom-line"></div>
                 </div>
                 <!-- Masthead Subheading-->
+                {% if user.medico %}
+                <p class="masthead-subheading font-weight-light mb-0">Historias Clinicas</p>
+                {% else %}
                 <p class="masthead-subheading font-weight-light mb-0">Consultorios Externos - Estudios</p>
+                {% endif %}
             </div>
         </header>
         <!-- Portfolio Section-->
@@ -134,7 +151,7 @@
         <section class="page-section bg-primary text-white mb-0" id="about">
             <div class="container">
                 <!-- About Section Heading-->
-                <h2 class="page-section-heading text-center text-uppercase text-white">About</h2>
+                <h2 class="page-section-heading text-center text-uppercase text-white">Nuestra Clinica</h2>
                 <!-- Icon Divider-->
                 <div class="divider-custom divider-light">
                     <div class="divider-custom-line"></div>

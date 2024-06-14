@@ -1,0 +1,30 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block contenido_que_cambia %}
+<div class="container mt-5 mb-5">
+    <h1>Mis Turnos</h1>
+    {% if turnos %}
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Paciente</th>
+                    <th>Fecha</th>
+                    <th>Duracion (Minutos)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for turno in turnos %}
+                <tr>
+                    <td>{{ turno.cliente }}</td>
+                    <td>{{ turno.fecha }}</td>
+                    <td>{{ turno.duracion }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No tienes turnos programados.</p>
+    {% endif %}
+</div>
+{% endblock %}

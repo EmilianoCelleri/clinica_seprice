@@ -1,0 +1,30 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block contenido_que_cambia %}
+<div class="container mt-5 mb-5">
+    <h1>Mi Historia Clínica</h1>
+    {% if historias_clinicas %}
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Médico</th>
+                    <th>Fecha</th>
+                    <th>Diagnóstico</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for historia in historias_clinicas %}
+                <tr>
+                    <td>{{ historia.medico }}</td>
+                    <td>{{ historia.fecha }}</td>
+                    <td>{{ historia.diagnostico|safe }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No tienes historias clínicas registradas.</p>
+    {% endif %}
+</div>
+{% endblock %}

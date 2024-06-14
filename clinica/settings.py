@@ -134,24 +134,3 @@ MEDIA_URL='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 CKEDITOR_UPLOAD_PATH = "uploads/"
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-
-CKEDITOR_5_CONFIGS = {
-    'default': {
-        'toolbar': [
-            'heading', '|', 'bold', 'italic', '|', 'link', '|', 'bulletedList', 'numberedList', 'blockQuote'
-        ],
-        'image': {
-            'toolbar': [
-                'imageTextAlternative', '|', 'imageStyle:full', 'imageStyle:side'
-            ]
-        },
-        'table': {
-            'contentToolbar': [
-                'tableColumn', 'tableRow', 'mergeTableCells'
-            ]
-        },
-        'height': '400px',
-        'width': 'auto',
-    }
-}

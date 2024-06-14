@@ -1,0 +1,13 @@
+{% extends 'index.html' %}
+
+{% block contenido_que_cambia %}
+<div class="container mt-5 mb-5">
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Acceso denegado</h4>
+        <p>No tienes permiso para acceder a esta página. Esta sección está reservada solo para médicos.</p>
+        <hr>
+        <p class="mb-0">Si crees que esto es un error, contacta con el administrador del sistema.</p>
+    </div>
+    <a href="{% url 'index' %}" class="btn btn-primary mt-3">Volver al inicio</a>
+</div>
+{% endblock %}
